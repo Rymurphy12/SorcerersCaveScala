@@ -1,8 +1,14 @@
 import java.io.IOException
-import scala.collection.mutable.ListBuffer
-import scala.swing._
-import scala.swing.event.ButtonClicked
 import java.util.Scanner
+import scala.collection.mutable.ListBuffer
+import scalafx.scene.layout._
+import scalafx.application.JFXApp
+import scalafx.application.JFXApp._
+import scalafx.scene.control._
+import scalafx.stage._
+import scalafx.scene.Scene
+import scalafx.Includes._
+
 
 
 /**
@@ -10,55 +16,61 @@ import java.util.Scanner
  *
  * Description: This app replicates Project 1 of my Sorcerer's Cave project. However, the key difference here
  *              is that this project is written in Scala rather than Java and *attempts* (key word being attempts)
- *              to leverage the power of Scala in this language.
+ *              to leverage the power of Scala in this project. I am attempting to use some of the features of
+  *             Scala to get a feel for how they work so I will be comfortable using them in the future.
  * Note (09/09/2015): This is still a rough first draft. The formatting of the strings in the text area needs to be
  *        worked on and the search functionality also needs to be implemented. Finally, I am not familiar with the
  *        spacing of Scala and need to read up on the proper spacing. There are probably serveral other issues that
  *        I need to fix that I am unaware of.
  */
 
-object SorcerersCave extends App{
+trait GameElement {
+  val index: Int
+  val name: String
+  val elementType: String
+}
+case class Cave(parties :ListBuffer[Party], excess :ListBuffer[Any])
+case class Party(index :Int, name :String, elementType :String, partyMembers :ListBuffer[Creature]) extends GameElement
+case class Creature(index :Int, name :String, elementType :String, memberOfPartyIndex :Int,
+                    empathy :Int, fear :Int, carryingCapacity :Int, loot :ListBuffer[Treasure],
+                    artifacts : ListBuffer[Artifact]) extends GameElement
+case class Treasure(index :Int, name :String, elementType :String, ownedByIndex :Int, weight :Double, value :Int) extends GameElement
+case class Artifact(index :Int, name :String, elementType :String, ownedByIndex :Int) extends GameElement
 
-  trait GameElement {
-    val index: Int
-    val name: String
-    val elementType: String
-  }
-  case class Cave(parties :ListBuffer[Party], excess :ListBuffer[Any])
-  case class Party(index :Int, name :String, elementType :String, partyMembers :ListBuffer[Creature]) extends GameElement
-  case class Creature(index :Int, name :String, elementType :String, memberOfPartyIndex :Int,
-                      empathy :Int, fear :Int, carryingCapacity :Int, loot :ListBuffer[Treasure],
-                      artifacts : ListBuffer[Artifact]) extends GameElement
-  case class Treasure(index :Int, name :String, elementType :String, ownedByIndex :Int, weight :Double, value :Int) extends GameElement
-  case class Artifact(index :Int, name :String, elementType :String, ownedByIndex :Int) extends GameElement
+object SorcerersCave extends JFXApp{
 
   val cave = new Cave(ListBuffer(), ListBuffer())
   val informationText: TextArea = new TextArea()
-  val scroller = new ScrollPane(informationText)
-  val readButton = new Button("Read")
-  val displayButton = new Button("Display")
-  val searchByComboBox = new ComboBox[String](List("Index", "Name", "Type"))
-  val searchLabel = new Label("Search target")
-  val searchInput = new TextField(10)
-  val searchButton = new Button("Search")
-  val buttonPanel = new FlowPanel{
-    contents += (readButton, displayButton, searchByComboBox,searchLabel, searchInput, searchButton)
-  }
 
-  val sorcerersCaveGUI = new MainFrame{
+  stage = new PrimaryStage {
       title = "Sorcerers Cave"
-      size = new Dimension(800, 600)
-      visible = true
-      contents = new BorderPanel{
-        layout += scroller -> BorderPanel.Position.Center
-        layout += buttonPanel -> BorderPanel.Position.North
+      width = 600
+      height = 400
+
+      val buttonPane = new FlowPane {
+        new Button("Read") {
+          onAction = handle { readFile }
+        }
+        new Button("Display"){
+          onAction = handle { displayCave() }
+        }
+        val searchBy = new ComboBox[String](List("Index", "Name", "Type"))
+        new Label("Search target")
+        val searchInput = new TextField() {
+          prefWidth = 10
+        }
+        new Button("Search"){
+          onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.toString()) }
+        }
       }
-      //val buttonPanel
-      listenTo(searchButton, displayButton, readButton)
-      reactions += {
-        case ButtonClicked(`readButton`) =>     readFile
-        case ButtonClicked(`displayButton`) =>  displayCave()
-        case ButtonClicked(`searchButton`) =>   search(searchInput.text.toLowerCase.trim)
+      val scroller = new ScrollPane()
+      scroller.setContent(informationText)
+
+      scene = new Scene {
+        content = new BorderPane {
+             top = buttonPane
+             center = scroller
+        }
       }
   }
 
@@ -66,8 +78,8 @@ object SorcerersCave extends App{
     try {
       val chooser = new FileChooser()
       var in: Scanner = null
-      if (chooser.showOpenDialog(null) == FileChooser.Result.Approve) {
-        val selectedFile = chooser.selectedFile
+      val selectedFile = chooser.showOpenDialog(stage)
+      if (selectedFile != null) {
         in = new Scanner(selectedFile)
         while (in.hasNext) {
           val line = in.nextLine()
@@ -75,24 +87,26 @@ object SorcerersCave extends App{
         }
       }
     }catch{
-      case ioe: IOException => Dialog.showMessage(null, "File Not Found.")
+      case ioe: IOException => new Dialog {
+        contentText = "File Not Found."
+      }
     }finally{
-      informationText.append("Your File has been loaded!")
+      informationText.appendText("Your File has been loaded!")
     }
   }
 
   def displayCave(): Unit ={
-    informationText.append("Displaying Data From Game:\n")
-    informationText.append(cave.toString+"")
+    informationText.appendText("Displaying Data From Game:\n")
+    informationText.appendText(cave.toString+"")
     cave.parties.foreach{
-      p : Party => informationText.append("  " + p.toString)
+      p : Party => informationText.appendText("  " + p.toString)
       p.partyMembers.foreach{
-        c: Creature => informationText.append("   " + c.toString)
-          c.loot.foreach{
-            t : Treasure => informationText.append("      " + t.toString)
+        c: Creature => informationText.appendText("   " + c.toString)
+            c.loot.foreach{
+            t : Treasure => informationText.appendText("      " + t.toString)
           }
           c.artifacts.foreach{
-            a : Artifact => informationText.append("      " + a.toString)
+            a : Artifact => informationText.appendText("      " + a.toString)
           }
       }
     }
@@ -139,7 +153,7 @@ object SorcerersCave extends App{
       case _ => return
     }
   }
-  def search(input: String): Unit ={
+  def search(input: String, searchCategory: String): Unit ={
 
   }
 
