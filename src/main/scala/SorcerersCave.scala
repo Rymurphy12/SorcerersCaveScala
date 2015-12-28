@@ -1,4 +1,4 @@
-import java.io.IOException
+import java.io.{File, IOException}
 import java.util.Scanner
 import scala.collection.mutable.ListBuffer
 import scalafx.scene.layout._
@@ -8,6 +8,7 @@ import scalafx.scene.control._
 import scalafx.stage._
 import scalafx.scene.Scene
 import scalafx.Includes._
+
 
 
 
@@ -47,7 +48,6 @@ object SorcerersCave extends JFXApp{
         )
       }
 
-
       val scroller = new ScrollPane()
       scroller.setContent(informationText)
 
@@ -61,7 +61,11 @@ object SorcerersCave extends JFXApp{
 
   def readFile: Unit ={
     try {
-      val chooser = new FileChooser()
+      val userDirectoryString = System.getProperty("user.home")
+      val userDirectory = new File(userDirectoryString)
+      val chooser = new FileChooser(){
+        initialDirectory = userDirectory
+      }
       var in: Scanner = null
       val selectedFile = chooser.showOpenDialog(stage)
       if (selectedFile != null) {
@@ -82,7 +86,7 @@ object SorcerersCave extends JFXApp{
 
   def displayCave(): Unit ={
     informationText.appendText("Displaying Data From Game:\n")
-    informationText.appendText(cave.toString+"")
+    //informationText.appendText(cave.toString+"")
     cave.parties.foreach{
       p : Party => informationText.appendText("  " + p.toString)
       p.partyMembers.foreach{
@@ -97,47 +101,66 @@ object SorcerersCave extends JFXApp{
     }
   }
 
-
   def processLine(line: String): Unit ={
 
     val dataList = line.split(":").map(_.trim).toList
-    var unaffiliated = true
     dataList.head match{
-      case "p"  => cave.parties.append(new Party(dataList(1).toInt, dataList(2), "Party", ListBuffer()))
-      case "c"  => val aCreature = new Creature(dataList(1).toInt, dataList(2), dataList(3), dataList(4).toInt,
-                                                        dataList(5).toInt, dataList(6).toInt, dataList(7).toInt,
-                                                        ListBuffer(), ListBuffer())
-        cave.parties foreach{p :Party => aCreature.memberOfPartyIndex match {
-          case p.index => p.partyMembers.append(aCreature); unaffiliated = false
-          case _ => return
-        }
+      case "p"  =>   cave.parties.append(new Party(dataList(1).toInt, dataList(2), "Party", ListBuffer()))
+      case "c"  =>   val aCreature = new Creature(dataList(1).toInt, dataList(2), dataList(3), dataList(4).toInt,
+                                                  dataList(5).toInt, dataList(6).toInt, dataList(7).toInt,
+                                                  ListBuffer(), ListBuffer())
+                     addCreatureToParty(aCreature)
 
-        if (unaffiliated)
-          cave.excess.append(aCreature)
-      }
       case "t" =>  val aTreasure = new Treasure(dataList(1).toInt, dataList(2), "Treasure", dataList(3).toInt,
-                                                         dataList(4).toDouble, dataList(5).toInt)
-        cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => aTreasure.ownedByIndex match {
-          case c.index => c.loot.append(aTreasure); unaffiliated = false
-          case _ => return
-        }
-          if (unaffiliated)
-            cave.excess.append(aTreasure)
-        }
-        }
-      case "a" => val name = if(dataList.length < 5) "Unnamed" else dataList(4)
-        val anArtifact = new Artifact(dataList(1).toInt, name, dataList(2), dataList(3).toInt)
-        cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => anArtifact.ownedByIndex match {
-          case c.index => c.artifacts.append(anArtifact); unaffiliated = false
-          case _ => return
-        }
-          if (unaffiliated)
-            cave.excess.append(anArtifact)
-        }
-        }
-      case _ => return
+                                                dataList(4).toDouble, dataList(5).toInt)
+                   addTreasureToCreature(aTreasure)
+
+      case "a" =>  val name = if(dataList.length < 5) "Unnamed" else dataList(4)
+                   val anArtifact = new Artifact(dataList(1).toInt, name, dataList(2), dataList(3).toInt)
+                   addArtifactToCreature(anArtifact)
+
+      case _ =>  return
     }
   }
+
+  def addCreatureToParty(creatureToAdd: Creature): Unit ={
+    var unaffiliated = true
+    cave.parties foreach{p :Party => creatureToAdd.memberOfPartyIndex match {
+      case p.index =>  p.partyMembers.append(creatureToAdd)
+                       unaffiliated = false
+      case _ =>  return
+    }
+      if (unaffiliated)
+        cave.excess.append(creatureToAdd)
+    }
+  }
+
+  def addTreasureToCreature(aTreasure: Treasure): Unit = {
+    var unaffiliated = true
+    cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => aTreasure.ownedByIndex match {
+      case c.index =>  c.loot.append(aTreasure)
+                       unaffiliated = false
+      case _ =>  return
+    }
+      if (unaffiliated)
+        cave.excess.append(aTreasure)
+    }
+    }
+  }
+
+  def addArtifactToCreature(anArtifact: Artifact): Unit = {
+    var unaffiliated = true
+    cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => anArtifact.ownedByIndex match {
+      case c.index =>  c.artifacts.append(anArtifact)
+                       unaffiliated = false
+      case _ => return
+    }
+      if (unaffiliated)
+        cave.excess.append(anArtifact)
+    }
+    }
+  }
+
   def search(input: String, searchCategory: String): Unit ={
 
   }

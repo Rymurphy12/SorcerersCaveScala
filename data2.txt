@@ -1,0 +1,148 @@
+// sample data file for CMSC 335, Fall 2012
+// Nicholas Duchon
+// Jan 23, 2012
+// Oct  5, 2012 - added more everything
+// Parties format:
+//    p:<index>:<name>
+p : 10001 : Unity
+p : 10002 : Assemblage
+p : 10003 : Conglomeration
+p : 10004 : Partnership
+p : 10005 : Company
+p : 10006 : Entourage
+
+// Creatures format:
+//    c:<index>:<type>:<name>:<party>:<empathy>:<fear>:<carrying capacity>:<age>:<height>:<weight>
+//  index   type          name           party   emp  fear   cap   age   hgt  wght
+//                                                                 yrs    cm   kg
+c : 20001 :  Woman      :  Lucy       :  10002 :  89 : 103 :  20 :  50 : 185 : 145
+c : 20002 :  Woman      :  Jane       :  10002 : 111 : 180 :  25 :  57 : 200 : 183
+c : 20003 :  Woman      :  Nancy      :  10003 : 172 :  52 :  20 :  91 : 228 : 258
+c : 20004 :  Woman      :  Mary       :  10006 : 167 : 166 :  20 : 103 : 124 : 233
+c : 20005 :  Woman      :  Daphne     :  10005 :  60 :  24 :  20 : 101 : 172 : 282
+c : 20006 :  Woman      :  Rachelle   :  10001 :   3 : 186 :  20 : 106 : 266 : 126
+c : 20007 :  Woman      :  Imogene    :  10003 :  42 :   1 :  20 :  64 : 132 : 260
+c : 20008 :  Woman      :  Gracie     :  10003 :   9 :  15 :  20 : 108 : 120 :  59
+c : 20101 :  Man        :  James      :  10003 :  83 : 199 :  50 :  28 : 126 :  75
+c : 20102 :  Man        :  George     :  10006 : 157 :  65 :  50 :  97 : 140 : 111
+c : 20103 :  Man        :  Thomas     :  10004 :  81 :  23 :  50 :  66 : 260 : 129
+c : 20104 :  Man        :  Edward     :  10006 :  69 : 152 :  50 :  66 : 165 : 180
+c : 20105 :  Man        :  Tristan    :  10002 : 134 :  45 :  50 :  50 : 207 : 142
+c : 20106 :  Man        :  Shelton    :  10003 :  17 : 167 :  50 :  15 : 147 : 262
+c : 20107 :  Man        :  Errol      :  10006 : 140 : 181 :  50 :  80 : 221 : 226
+c : 20201 :  Troll      :  Herensuge  :  10004 : 134 : 151 : 150 :  65 : 132 : 214
+c : 20202 :  Troll      :  Nagendra   :  10004 : 139 :  49 : 150 :  68 : 284 : 169
+c : 20203 :  Troll      :  Ormr       :  10006 :  41 :  89 : 150 :  20 : 146 : 251
+c : 20301 :  Warlock    :  Harry      :  10005 :  43 : 199 :   0 :  89 : 142 : 182
+c : 20302 :  Warlock    :  Alasdair   :  10004 :  42 : 179 :   0 : 109 : 265 : 184
+c : 20303 :  Warlock    :  Bronmai    :  10005 : 144 : 195 :   0 :  55 : 176 : 196
+c : 20304 :  Warlock    :  Keredwel   :  10006 : 111 : 126 :   0 :  95 : 190 : 262
+c : 20401 :  Witch      :  Morgana    :  10004 : 173 : 152 :   0 :  70 : 142 : 174
+c : 20402 :  Witch      :  Esmeralda  :  10006 :  57 :  53 :   0 : 100 : 174 : 243
+c : 20403 :  Witch      :  Penelope   :  10001 :   8 :  14 :   0 : 111 : 170 :  93
+c : 20501 :  Dragon     :  Fafnir     :      0 : 188 :  53 :   0 :  42 : 178 :  64
+c : 20502 :  Dragon     :  Nidhogg    :      0 : 128 : 124 :   0 :  36 : 149 : 111
+c : 20601 :  Elf        :  Tabatha    :  10006 :  35 : 182 :   0 : 100 : 206 : 134
+c : 20602 :  Elf        :  Serena     :  10004 : 140 : 174 :   0 : 114 : 174 :  89
+c : 20603 :  Elf        :  Rosalinda  :  10004 :  26 :  63 :   0 :  78 : 155 : 234
+c : 20604 :  Elf        :  Liza       :  10006 :  21 :  28 :   0 :  60 : 284 : 130
+c : 20605 :  Elf        :  Daren      :  10005 :  23 :  52 :   0 : 113 : 242 : 244
+c : 20701 :  Dwarf      :  Wilburn    :  10005 : 120 :  62 :   0 :  79 : 290 : 265
+c : 20702 :  Dwarf      :  Morton     :  10005 :  22 : 162 :   0 :  25 : 146 : 184
+c : 20703 :  Dwarf      :  Duncan     :  10005 : 133 :  48 :   0 :  63 : 287 : 147
+c : 20704 :  Dwarf      :  Forest     :  10005 :  53 :   4 :   0 :  41 : 242 : 221
+c : 20801 :  Hobbit     :  Parker     :  10005 : 136 :  74 :   0 :  89 : 261 : 100
+c : 20802 :  Hobbit     :  Rodrick    :  10002 :  47 :  21 :   0 : 120 : 300 :  54
+c : 20803 :  Hobbit     :  Aron       :  10006 :  62 : 108 :   0 :  46 : 204 : 107
+c : 20804 :  Hobbit     :  Kareem     :  10002 : 199 : 161 :   0 : 113 : 134 : 266
+c : 20805 :  Hobbit     :  Alden      :  10003 :  57 :  46 :   0 :  69 : 221 : 275
+c : 20806 :  Hobbit     :  Normand    :  10003 : 131 : 195 :   0 :  59 : 215 : 112
+c : 20807 :  Hobbit     :  Tanner     :  10006 :  86 :  34 :   0 : 120 : 260 : 183
+c : 20901 :  Dog        :  Berkeley   :  10005 :  25 :  70 :   0 :  26 : 285 :  59
+c : 20902 :  Dog        :  Divit      :  10005 :  96 : 171 :   0 :  65 : 184 : 268
+c : 20903 :  Dog        :  Flitter    :  10005 :  27 : 119 :   0 :  35 : 208 : 212
+c : 20904 :  Dog        :  Jimbo      :  10001 :  96 : 194 :   0 :  52 : 147 :  57
+c : 21001 :  Wolf       :  Kodashay   :  10003 : 111 : 103 :   0 :  38 : 143 : 196
+c : 21002 :  Wolf       :  Raspuntine :  10002 :  59 :   9 :   0 :  29 : 169 : 231
+c : 21101 :  Enchanter  :  Mazara     :  10004 : 156 : 185 :   0 :  60 : 151 : 217
+c : 21102 :  Enchanter  :  Nisien     :  10005 : 187 :  97 :   0 :  23 : 187 :  54
+c : 21103 :  Enchanter  :  Oschwy     :  10001 : 197 : 181 :   0 :  42 : 292 :  86
+c : 21201 :  Charmer    :  Peigi      :  10002 : 154 : 143 :   0 :  89 : 215 : 186
+c : 21202 :  Charmer    :  Ravenclaw  :  10006 : 135 : 100 :   0 :  85 : 265 : 189
+c : 21301 :  Shaman     :  Sargon     :  10002 :  97 : 138 :   0 :  94 : 236 : 233
+c : 21302 :  Shaman     :  Serafina   :  10003 : 196 :  72 :   0 :  71 : 230 : 181
+c : 21303 :  Shaman     :  Sulwen     :  10003 : 152 : 108 :   0 :  89 : 179 : 249
+c : 21401 :  Seer       :  Tenser     :  10001 :   2 :  41 :   0 :  50 : 214 : 246
+c : 21501 :  Sybil      :  Fachtna    :  10006 : 162 : 160 :   0 :  59 : 256 : 229
+c : 21502 :  Sybil      :  Cackletta  :  10003 :  54 :  29 :   0 :  53 : 218 : 252
+c : 21601 :  Clairvoyant:  Ciaran     :  10006 :  57 : 108 :   0 :  26 : 199 : 200
+c : 21602 :  Clairvoyant:  Dalamar    :  10003 : 135 :   7 :   0 :  36 : 171 : 125
+c : 21701 :  Medium     :  Melf       :  10006 : 180 :  20 :   0 :  57 : 223 : 200
+c : 21801 :  Wolf       :  Mordo      :  10001 :  86 :  11 :   0 :  65 : 216 :  73
+
+// Treasures format:
+//    t:<index>:<type>:<creature>:<weight>:<value>
+// creature = 0 means noone is carrying that treasure at the moment
+t : 30001 : Gold   : 20004 :  50 :  2000
+t : 30002 : Gold   :     0 :  75 :  5000
+t : 30003 : Gems   : 20002 :  10 : 10000
+t : 30004 : Silver : 20005 : 120 :  1000
+
+// Artifacts format:
+//    a:<index>:<type>:<creature>[:<name>]
+a : 40101 : Wand   : 20403 : ElderWand
+a : 40102 : Wand   : 21103 : BlueWand
+a : 40103 : Wand   : 20401 : CrystalWand
+a : 40104 : Wand   : 20301 : LeftWand
+a : 40105 : Wand   : 20303 : DearWand
+a : 40106 : Wand   : 20304 : CenterWand
+a : 40107 : Wand   : 21202 : StarWand
+a : 40108 : Wand   : 20402 : GraceWand
+a : 40201 : Potion : 21401 : Healing
+a : 40202 : Potion : 21301 : Poison
+a : 40203 : Potion : 21302 : Simulation
+a : 40204 : Potion : 21303 : Copycat
+a : 40205 : Potion : 20603 : Hiding
+a : 40206 : Potion : 21102 : Mutation
+a : 40301 : Stone  : 20802 : Rainbow
+a : 40302 : Stone  : 20804 : Granite
+a : 40303 : Stone  : 20702 : Amethyst
+a : 40401 : Scroll : 21502 : Crying
+a : 40402 : Scroll : 20601 : Liquid Fire
+a : 40403 : Scroll : 21701 : Summon Unicorn
+a : 40401 : Sword  : 20001 : Excalibur
+a : 40502 : Sword  : 20105 : Iceflame
+a : 40503 : Sword  : 20002 : Vorpal
+a : 40504 : Sword  : 20003 : Vajra
+a : 40505 : Sword  : 20101 : Kusanagi
+a : 40506 : Sword  : 20103 : Amoracchius
+a : 40507 : Sword  : 20703 : Sommerswerd
+a : 40508 : Sword  : 20801 : Dragnipur
+a : 40509 : Sword  : 20102 : Callandor
+a : 40510 : Sword  : 20104 : Blackfyre
+a : 40601 : Armour : 20006 : Plate
+a : 40602 : Armour : 20002 : Chain
+a : 40603 : Armour : 20007 : Lorica
+a : 40604 : Armour : 20106 : Tanko
+a : 40605 : Armour : 20103 : Scale
+a : 40606 : Armour : 20605 : Lamellar
+a : 40607 : Armour : 20704 : Laminar
+a : 40608 : Armour : 20803 : Brigandine
+a : 40609 : Armour : 20807 : Splinted
+a : 40610 : Armour : 20203 : Leather
+
+// Jobs for creatures
+// measure time in seconds
+//    j:<index>:<name>:<creature index>:<time>:[:<required artifact type>:<number>]*
+// Group 10006 - Keredwel and Aron
+j : 50001 : Heal Troll : 20304 : 10 : Wand : 3 : Potion : 0 : Stone : 0 : Scroll : 0 : Sword : 0 : Armour : 0
+j : 50002 : Strike Now : 20304 : 20 : Wand : 0 : Potion : 0 : Stone : 0 : Scroll : 0 : Sword : 1 : Armour : 1
+j : 50003 : Read Mind  : 20803 : 25 : Wand : 2 : Potion : 0 : Stone : 0 : Scroll : 2 : Sword : 1 : Armour : 0
+j : 50004 : Will Two   : 20803 : 30 : Wand : 1 : Potion : 0 : Stone : 0 : Scroll : 1 : Sword : 1 : Armour : 0
+j : 50005 : Zero All   : 20803 : 23 : Wand : 0 : Potion : 0 : Stone : 0 : Scroll : 0 : Sword : 2 : Armour : 3
+// Group 10005 - Nisien, Daphne
+j : 50006 : Find Keys  : 21102 : 22 : Wand : 1 : Potion : 1 : Stone : 1 : Scroll : 0 : Sword : 1 : Armour : 1
+j : 50007 : Call Home  : 21102 : 15 : Wand : 2 : Potion : 0 : Stone : 1 : Scroll : 0 : Sword : 0 : Armour : 0
+j : 50008 : Sleep      : 21102 :  7 : Wand : 2 : Potion : 1 : Stone : 1 : Scroll : 0 : Sword : 0 : Armour : 1
+j : 50009 : Wake       : 20005 : 16 : Wand : 0 : Potion : 0 : Stone : 0 : Scroll : 0 : Sword : 0 : Armour : 1
+j : 50010 : Fight      : 20005 : 27 : Wand : 2 : Potion : 0 : Stone : 0 : Scroll : 0 : Sword : 2 : Armour : 1

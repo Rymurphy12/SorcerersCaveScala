@@ -14,7 +14,7 @@ case class Cave(parties :ListBuffer[Party], excess :ListBuffer[Any])
 
 case class Party(index :Int, name :String, elementType :String, partyMembers :ListBuffer[Creature]) extends GameElement{
   override def toString: String ={
-    "\nParty:\n"+ "Name: " + name +"\n"
+    "\nParty:\n"+ "Name: " + name +"\n" + "Index: " + index +"\n"
 
   }
 }

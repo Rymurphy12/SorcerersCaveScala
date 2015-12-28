@@ -1,0 +1,51 @@
+// sample data file for CMSC 335, Spring 2012
+// Nicholas Duchon
+// Jan 23, 2012
+// Parties format:
+//    p:<index>:<name>
+p : 10001 : Unity
+p : 10002 : Assemblage
+p : 10003 : Conglomeration
+
+// Creatures format:
+//    c:<index>:<type>:<name>:<party>:<empathy>:<fear>:<carrying capacity>
+c : 20001 : Woman   : Lucy   :10001 : 17 : 22 : 20
+c : 20002 : Woman   : Jane   :10001 : 22 : 15 : 25
+c : 20003 : Woman   : Nancy  :10003 : 80 : 44 : 20
+c : 20004 : Man     : James  :10002 : 35 : 13 : 50
+c : 20005 : Troll   : Fred   :10002 : 03 : 05 : 150
+c : 20006 : Warlock : Harry  :10003 : 05 : 06 : 0
+c : 20007 : Witch   : Morgana:10001 : 10 : 15 : 0
+
+// Treasures format:
+//    t:<index>:<type>:<creature>:<weight>:<value>
+// creature = 0 means noone is carrying that treasure at the moment
+t : 30001 : Gold : 20004 : 50 : 2000
+t : 30002 : Gold :     0 : 75 : 5000
+t : 30003 : Gems : 20002 : 10 : 10000
+t : 30004 : Silver : 20005 : 120 : 1000
+
+// Artifacts format:
+//    a:<index>:<type>:<creature>[:<name>]
+a : 40101 : Wand   : 20007 : ElderWand
+a : 40102 : Wand   : 20006
+a : 40201 : Potion : 20007
+a : 40301 : Stone  : 20007 : Rainbow
+a : 40302 : Stone  : 20007 : Granite
+a : 40303 : Stone  : 20007 : Amethyst
+a : 40401 : Scroll : 20007 : Crying
+a : 40402 : Scroll : 20006 : Liquid Fire
+a : 40403 : Scroll : 20001 : Summon Unicorn
+
+// Jobs for creatures
+// measure time in seconds
+//    j:<index>:<name>:<creature index>:<time>[:<required artifact type>:<number>]*
+j : 50001 : Heal Troll : 20007 : 10 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50002 : Strike Now : 20007 : 20 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50003 : Read Mind  : 20007 : 25 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50004 : Will Two   : 20007 : 30 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50005 : Zero All   : 20006 : 23 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50006 : Find Keys  : 20006 : 28 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50007 : Call Home  : 20006 : 15 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50008 : Sleep      : 20006 :  7 : Wand : 1 : Stone : 2 : Scroll : 1
+j : 50009 : Wake       : 20006 : 16 : Wand : 1 : Stone : 2 : Scroll : 1
