@@ -22,20 +22,10 @@ import scalafx.Includes._
  *        worked on and the search functionality also needs to be implemented. Finally, I am not familiar with the
  *        spacing of Scala and need to read up on the proper spacing. There are probably serveral other issues that
  *        I need to fix that I am unaware of.
+  *
+  *      12/27/2015 - Migrated from Swing to ScalaFx
  */
 
-trait GameElement {
-  val index: Int
-  val name: String
-  val elementType: String
-}
-case class Cave(parties :ListBuffer[Party], excess :ListBuffer[Any])
-case class Party(index :Int, name :String, elementType :String, partyMembers :ListBuffer[Creature]) extends GameElement
-case class Creature(index :Int, name :String, elementType :String, memberOfPartyIndex :Int,
-                    empathy :Int, fear :Int, carryingCapacity :Int, loot :ListBuffer[Treasure],
-                    artifacts : ListBuffer[Artifact]) extends GameElement
-case class Treasure(index :Int, name :String, elementType :String, ownedByIndex :Int, weight :Double, value :Int) extends GameElement
-case class Artifact(index :Int, name :String, elementType :String, ownedByIndex :Int) extends GameElement
 
 object SorcerersCave extends JFXApp{
 
@@ -44,25 +34,20 @@ object SorcerersCave extends JFXApp{
 
   stage = new PrimaryStage {
       title = "Sorcerers Cave"
-      width = 600
-      height = 400
-
+      val searchBy = new ComboBox[String](List("Index", "Name", "Type"))
+      val searchInput = new TextField() {prefWidth = 100}
       val buttonPane = new FlowPane {
-        new Button("Read") {
-          onAction = handle { readFile }
-        }
-        new Button("Display"){
-          onAction = handle { displayCave() }
-        }
-        val searchBy = new ComboBox[String](List("Index", "Name", "Type"))
-        new Label("Search target")
-        val searchInput = new TextField() {
-          prefWidth = 10
-        }
-        new Button("Search"){
-          onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.toString()) }
-        }
+        hgap = 5
+        children = Seq(new Button("Read") { onAction = handle { readFile }} ,
+                       new Button("Display"){ onAction = handle { displayCave() }},
+                       searchBy,
+                       new Label("Search target:"),
+                       searchInput,
+                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.toString()) }}
+        )
       }
+
+
       val scroller = new ScrollPane()
       scroller.setContent(informationText)
 
