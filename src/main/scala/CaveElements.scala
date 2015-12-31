@@ -10,7 +10,7 @@ trait GameElement {
   val name: String
   val elementType: String
 }
-case class Cave(parties :ListBuffer[Party], excess :ListBuffer[Any])
+case class Cave(parties :ListBuffer[Party], excess :ListBuffer[AnyRef])
 
 case class Party(index :Int, name :String, elementType :String, partyMembers :ListBuffer[Creature]) extends GameElement{
   override def toString: String ={

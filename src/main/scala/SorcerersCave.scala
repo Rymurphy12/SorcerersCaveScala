@@ -80,14 +80,13 @@ object SorcerersCave extends JFXApp{
         contentText = "File Not Found."
       }
     }finally{
-      informationText.appendText("Your File has been loaded!")
+      informationText.appendText("Your File has been loaded!\n")
     }
   }
 
   def displayCave(): Unit ={
-    informationText.appendText("Displaying Data From Game:\n")
-    //informationText.appendText(cave.toString+"")
-    cave.parties.foreach{
+    informationText.appendText("Displaying Data From Game:\n"))
+    cave.parties foreach{
       p : Party => informationText.appendText("  " + p.toString)
       p.partyMembers.foreach{
         c: Creature => informationText.appendText("   " + c.toString)
@@ -99,6 +98,8 @@ object SorcerersCave extends JFXApp{
           }
       }
     }
+    informationText.appendText("Displaying Game Elements that are unassigned.\n")
+    cave.excess foreach{e : AnyRef =>}
   }
 
   def processLine(line: String): Unit ={
@@ -106,7 +107,7 @@ object SorcerersCave extends JFXApp{
     val dataList = line.split(":").map(_.trim).toList
     dataList.head match{
       case "p"  =>   cave.parties.append(new Party(dataList(1).toInt, dataList(2), "Party", ListBuffer()))
-      case "c"  =>   val aCreature = new Creature(dataList(1).toInt, dataList(2), dataList(3), dataList(4).toInt,
+      case "c" =>    val aCreature = new Creature(dataList(1).toInt, dataList(2), dataList(3), dataList(4).toInt,
                                                   dataList(5).toInt, dataList(6).toInt, dataList(7).toInt,
                                                   ListBuffer(), ListBuffer())
                      addCreatureToParty(aCreature)
@@ -115,7 +116,7 @@ object SorcerersCave extends JFXApp{
                                                 dataList(4).toDouble, dataList(5).toInt)
                    addTreasureToCreature(aTreasure)
 
-      case "a" =>  val name = if(dataList.length < 5) "Unnamed" else dataList(4)
+      case "a"  =>  val name = if(dataList.length < 5) "Unnamed" else dataList(4)
                    val anArtifact = new Artifact(dataList(1).toInt, name, dataList(2), dataList(3).toInt)
                    addArtifactToCreature(anArtifact)
 
@@ -128,7 +129,7 @@ object SorcerersCave extends JFXApp{
     cave.parties foreach{p :Party => creatureToAdd.memberOfPartyIndex match {
       case p.index =>  p.partyMembers.append(creatureToAdd)
                        unaffiliated = false
-      case _ =>  return
+      case _ =>  ;
     }
       if (unaffiliated)
         cave.excess.append(creatureToAdd)
@@ -140,7 +141,7 @@ object SorcerersCave extends JFXApp{
     cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => aTreasure.ownedByIndex match {
       case c.index =>  c.loot.append(aTreasure)
                        unaffiliated = false
-      case _ =>  return
+      case _ =>  ;
     }
       if (unaffiliated)
         cave.excess.append(aTreasure)
@@ -153,7 +154,7 @@ object SorcerersCave extends JFXApp{
     cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => anArtifact.ownedByIndex match {
       case c.index =>  c.artifacts.append(anArtifact)
                        unaffiliated = false
-      case _ => return
+      case _ =>  ;
     }
       if (unaffiliated)
         cave.excess.append(anArtifact)
