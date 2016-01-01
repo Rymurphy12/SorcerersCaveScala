@@ -5,12 +5,12 @@ import scala.collection.mutable.ListBuffer
   * Description: Added file for the classes used by the game.
   */
 
-trait GameElement {
+abstract class GameElement {
   val index: Int
   val name: String
   val elementType: String
 }
-case class Cave(parties :ListBuffer[Party], excess :ListBuffer[AnyRef])
+case class Cave(parties :ListBuffer[Party], excess :ListBuffer[GameElement])
 
 case class Party(index :Int, name :String, elementType :String, partyMembers :ListBuffer[Creature]) extends GameElement{
   override def toString: String ={

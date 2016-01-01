@@ -43,12 +43,12 @@ object SorcerersCave extends JFXApp{
       val buttonPane = new FlowPane {
         hgap = 5
         children = Seq(new Button("Read") { onAction = handle { readFile }} ,
-                       new Button("Display"){ onAction = handle { displayCave() }},
+                       new Button("Display"){ onAction = handle { displayCave }},
                        searchBy,
                        new Label("Search target:"),
                        searchInput,
-                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.toString()) }}
-        )
+                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.value.value) }}
+                      )
       }
       scene = new Scene {
         content = new BorderPane {
@@ -83,7 +83,7 @@ object SorcerersCave extends JFXApp{
     }
   }
 
-  def displayCave(): Unit ={
+  def displayCave: Unit ={
     informationText.appendText("Displaying Data From Game:\n")
     cave.parties foreach{
       p : Party => informationText.appendText("  " + p.toString)
@@ -98,7 +98,7 @@ object SorcerersCave extends JFXApp{
       }
     }
     informationText.appendText("Displaying Game Elements that are unassigned.\n")
-    cave.excess foreach{e : AnyRef => informationText.appendText("  " + e.toString)}
+    cave.excess foreach{e : GameElement => informationText.appendText("  " + e.toString)}
   }
 
   def processLine(line: String): Unit ={
@@ -127,10 +127,9 @@ object SorcerersCave extends JFXApp{
     cave.parties foreach{p :Party => creatureToAdd.memberOfPartyIndex match {
       case p.index =>  p.partyMembers.append(creatureToAdd); unaffiliated = false
       case _ =>  ;
-    }
-      if (unaffiliated)
-        cave.excess.append(creatureToAdd)
-    }
+    }}
+    if (unaffiliated)
+      cave.excess.append(creatureToAdd)
   }
 
   def addTreasureToCreature(aTreasure: Treasure): Unit = {
@@ -138,11 +137,9 @@ object SorcerersCave extends JFXApp{
     cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => aTreasure.ownedByIndex match {
       case c.index =>  c.loot.append(aTreasure); unaffiliated = false
       case _ =>  ;
-    }
-      if (unaffiliated)
-        cave.excess.append(aTreasure)
-    }
-    }
+    }}}
+    if (unaffiliated)
+      cave.excess.append(aTreasure)
   }
 
   def addArtifactToCreature(anArtifact: Artifact): Unit = {
@@ -150,43 +147,47 @@ object SorcerersCave extends JFXApp{
     cave.parties foreach{p: Party => p.partyMembers foreach {c: Creature => anArtifact.ownedByIndex match {
       case c.index =>  c.artifacts.append(anArtifact); unaffiliated = false
       case _ =>  ;
-    }
-      if (unaffiliated)
-        cave.excess.append(anArtifact)
-    }
-    }
+    }}}
+    if (unaffiliated)
+      cave.excess.append(anArtifact)
   }
 
   def search(input: String, searchCategory: String): Unit ={
     informationText.clear()
     val searchResults = new ListBuffer[GameElement]()
     for(party <- cave.parties){
-      if((searchCategory == "Index" && party.index == input.toInt) || (searchCategory == "Name"
+      if((searchCategory == "Index" && party.index.toString == input) || (searchCategory == "Name"
         && party.name.toLowerCase.trim == input) || (searchCategory == "Type"
         && party.elementType.toLowerCase.trim == input))
         searchResults.append(party)
       for(creature <- party.partyMembers){
-        if((searchCategory == "Index" && creature.index == input.toInt) || (searchCategory == "Name"
+        if((searchCategory == "Index" && creature.index.toString == input) || (searchCategory == "Name"
           && creature.name.toLowerCase.trim == input) || (searchCategory == "Type"
           && creature.elementType.toLowerCase.trim == input))
           searchResults.append(creature)
         for(treasure <- creature.loot)
-          if((searchCategory == "Index" && treasure.index == input.toInt) || (searchCategory == "Name"
+          if((searchCategory == "Index" && treasure.index.toString == input) || (searchCategory == "Name"
             && treasure.name.toLowerCase.trim == input) || (searchCategory == "Type"
             && treasure.elementType.toLowerCase.trim == input))
             searchResults.append(treasure)
         for(artifact <- creature.artifacts)
-          if((searchCategory == "Index" && artifact.index == input.toInt) || (searchCategory == "Name"
+          if((searchCategory == "Index" && artifact.index.toString == input) || (searchCategory == "Name"
             && artifact.name.toLowerCase.trim == input) || (searchCategory == "Type"
             && artifact.elementType.toLowerCase.trim == input))
             searchResults.append(artifact)
       }
+    }
+    for(element <- cave.excess){
+      if((searchCategory == "Index" && element.index.toString == input) || (searchCategory == "Name"
+        && element.name.toLowerCase.trim == input) || (searchCategory == "Type"
+        && element.elementType.toLowerCase.trim == input))
+        searchResults.append(element)
     }
     if(searchResults.length > 0){
       informationText.appendText("We have found what you are looking for!\n")
       for(result <- searchResults)
         informationText.appendText(result.toString)
     }else
-      informationText.appendText("We couldn't find what yoou are looking for, sorry!")
+      informationText.appendText("We couldn't find what you are looking for, sorry!\n")
   }
 }
