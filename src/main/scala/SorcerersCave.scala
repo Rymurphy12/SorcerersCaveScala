@@ -18,11 +18,12 @@ import scalafx.Includes._
   *             Scala to get a feel for how they work so I will be comfortable using them in the future.
  * Note (09/09/2015): This is still a rough first draft. The formatting of the strings in the text area needs to be
  *        worked on and the search functionality also needs to be implemented. Finally, I am not familiar with the
- *        spacing of Scala and need to read up on the proper spacing. There are probably serveral other issues that
+ *        spacing of Scala and need to read up on the proper spacing. There are probably several other issues that
  *        I need to fix that I am unaware of.
   *
   *      12/27/2015 - Migrated from Swing to ScalaFx
   *      12/31/2015 - Implemented Search Functionality and fixed recurring issues adding game elements
+  *      01/02/2015 - Adding GUI to begin implementation of sorting by various fields
  */
 
 
@@ -30,6 +31,12 @@ object SorcerersCave extends JFXApp{
 
   val cave = new Cave(ListBuffer(), ListBuffer())
   val informationText: TextArea = new TextArea()
+
+  val sortByCreatureEmpathy = new CheckBox("Creature Empathy")
+  val sortByCreatureCarryingCapacity = new CheckBox("Creature Carrying Capacity")
+  val sortByCreatureFear = new CheckBox("Creature Fear")
+  val sortByTreasureValue = new CheckBox("Treasure Value")
+  val sortByTreasureWeight = new CheckBox("Treasure Weight")
 
   stage = new PrimaryStage {
       title = "Sorcerers Cave"
@@ -47,7 +54,13 @@ object SorcerersCave extends JFXApp{
                        searchBy,
                        new Label("Search target:"),
                        searchInput,
-                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.value.value) }}
+                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.value.value) }},
+                       new Label("Sort By: "),
+                       sortByCreatureEmpathy,
+                       sortByCreatureCarryingCapacity,
+                       sortByCreatureFear,
+                       sortByTreasureValue,
+                       sortByTreasureWeight
                       )
       }
       scene = new Scene {

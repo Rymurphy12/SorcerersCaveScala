@@ -1,4 +1,5 @@
 import scala.collection.mutable.ListBuffer
+import scala.math.Ordered
 
 /**
   * Created by rymurphy12 on 12/27/2015.
@@ -41,4 +42,5 @@ case class Artifact(index :Int, name :String, elementType :String, ownedByIndex 
     "\nArtifact:\nName: " + name +"\nOwned By=" + ownedByIndex + "\nType=" + elementType+"\nIndex: " + index +"\n"
   }
 }
+
 
