@@ -1,5 +1,6 @@
 import java.io.{File, IOException}
 import java.util.Scanner
+import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 import scalafx.scene.layout._
 import scalafx.application.JFXApp
@@ -30,21 +31,23 @@ import scalafx.Includes._
 object SorcerersCave extends JFXApp{
 
   val cave = new Cave(ListBuffer(), ListBuffer())
-  val informationText: TextArea = new TextArea()
+  val informationText: TextArea = new TextArea(){
+    prefColumnCount = 100
+    prefRowCount = 25
+  }
 
-  val sortByCreatureEmpathy = new CheckBox("Creature Empathy")
-  val sortByCreatureCarryingCapacity = new CheckBox("Creature Carrying Capacity")
-  val sortByCreatureFear = new CheckBox("Creature Fear")
-  val sortByTreasureValue = new CheckBox("Treasure Value")
-  val sortByTreasureWeight = new CheckBox("Treasure Weight")
+  val sortByCreatureEmpathy = new RadioButton("Creature Empathy")
+  val sortByCreatureCarryingCapacity = new RadioButton("Creature Carrying Capacity")
+  val sortByCreatureFear = new RadioButton("Creature Fear")
+  val noSortForCreature = new RadioButton("Unsorted Creatures")
+  val sortByTreasureValue = new RadioButton("Treasure Value")
+  val sortByTreasureWeight = new RadioButton("Treasure Weight")
+  val noSortByTreasure = new RadioButton("UnsortedTreasure")
 
   stage = new PrimaryStage {
       title = "Sorcerers Cave"
       val searchBy = new ComboBox[String](List("Index", "Name", "Type")){
         value = "Index"
-      }
-      val resizeableBox = new HBox(informationText){
-        hgrow = Priority.Always
       }
       val searchInput = new TextField() {prefWidth = 100}
       val buttonPane = new FlowPane {
@@ -54,19 +57,23 @@ object SorcerersCave extends JFXApp{
                        searchBy,
                        new Label("Search target:"),
                        searchInput,
-                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim, searchBy.value.value) }},
-                       new Label("Sort By: "),
-                       sortByCreatureEmpathy,
-                       sortByCreatureCarryingCapacity,
-                       sortByCreatureFear,
-                       sortByTreasureValue,
-                       sortByTreasureWeight
+                       new Button("Search"){ onAction = handle { search(searchInput.getText.toLowerCase.trim,
+                                                                        searchBy.value.value) }}
                       )
+      }
+      val creatureToggleGroup = new ToggleGroup{
+        toggles = List(noSortForCreature, sortByCreatureEmpathy,
+                       sortByCreatureFear,sortByCreatureCarryingCapacity)
+      }
+      val creatureSortBox = new VBox{
+        children = List(noSortForCreature, sortByCreatureEmpathy,
+                        sortByCreatureFear,sortByCreatureCarryingCapacity)
       }
       scene = new Scene {
         content = new BorderPane {
              top = buttonPane
-             center = resizeableBox
+             center = informationText
+             right = creatureSortBox
         }
       }
   }
