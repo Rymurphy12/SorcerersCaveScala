@@ -31,10 +31,7 @@ import scalafx.Includes._
 object SorcerersCave extends JFXApp{
 
   val cave = new Cave(ListBuffer(), ListBuffer())
-  val informationText: TextArea = new TextArea(){
-    prefColumnCount = 100
-    prefRowCount = 25
-  }
+  val informationText: TextArea = new TextArea()
 
   val sortByCreatureEmpathy = new RadioButton("Creature Empathy")
   val sortByCreatureCarryingCapacity = new RadioButton("Creature Carrying Capacity")
@@ -65,12 +62,16 @@ object SorcerersCave extends JFXApp{
         toggles = List(noSortForCreature, sortByCreatureEmpathy,
                        sortByCreatureFear,sortByCreatureCarryingCapacity)
       }
+      val treasureToggleGroup = new ToggleGroup{
+        toggles = List(noSortByTreasure,sortByTreasureValue, sortByTreasureWeight)
+      }
       val creatureSortBox = new VBox{
-        children = List(noSortForCreature, sortByCreatureEmpathy,
-                        sortByCreatureFear,sortByCreatureCarryingCapacity)
+        children = List(new Label("Creature Sort Options"), noSortForCreature, sortByCreatureEmpathy,
+                        sortByCreatureFear,sortByCreatureCarryingCapacity, new Label("Treasure Sort Options"),
+                        noSortByTreasure,sortByTreasureValue, sortByTreasureWeight)
       }
       scene = new Scene {
-        content = new BorderPane {
+        root = new BorderPane {
              top = buttonPane
              center = informationText
              right = creatureSortBox
