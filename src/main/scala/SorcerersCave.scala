@@ -25,6 +25,7 @@ import scalafx.Includes._
   *      12/27/2015 - Migrated from Swing to ScalaFx
   *      12/31/2015 - Implemented Search Functionality and fixed recurring issues adding game elements
   *      01/02/2015 - Adding GUI to begin implementation of sorting by various fields
+  *      01/11/2016 - Added logic supported use of sorted GUIs
  */
 
 
@@ -36,10 +37,11 @@ object SorcerersCave extends JFXApp{
   val sortByCreatureEmpathy = new RadioButton("Creature Empathy")
   val sortByCreatureCarryingCapacity = new RadioButton("Creature Carrying Capacity")
   val sortByCreatureFear = new RadioButton("Creature Fear")
-  val noSortForCreature = new RadioButton("Unsorted Creatures")
+  val noSortForCreature = new RadioButton("Unsorted Creatures"){ selected = true }
+  
   val sortByTreasureValue = new RadioButton("Treasure Value")
   val sortByTreasureWeight = new RadioButton("Treasure Weight")
-  val noSortByTreasure = new RadioButton("UnsortedTreasure")
+  val noSortByTreasure = new RadioButton("UnsortedTreasure"){ selected = true }
 
   stage = new PrimaryStage {
       title = "Sorcerers Cave"
@@ -104,13 +106,35 @@ object SorcerersCave extends JFXApp{
     }
   }
 
+  def sortCreaturesBySelectedType(partyMembers: ListBuffer[Creature]): ListBuffer[Creature] = {
+    if(sortByCreatureEmpathy.selected.value)
+      partyMembers.sortWith(_.empathy > _.empathy)
+    else if(sortByCreatureCarryingCapacity.selected.value)
+      partyMembers.sortWith(_.carryingCapacity > _.carryingCapacity)
+    else if(sortByCreatureFear.selected.value)
+      partyMembers.sortWith(_.fear > _.fear)
+    else
+      partyMembers
+  }
+
+  def sortTreasureBySelectedType(loot: ListBuffer[Treasure]): ListBuffer[Treasure] = {
+    if(sortByTreasureValue.selected.value)
+      loot.sortWith(_.value > _.value)
+    else if(sortByTreasureWeight.selected.value)
+      loot.sortWith(_.weight > _.weight)
+    else
+      loot
+  }
+
   def displayCave: Unit ={
     informationText.appendText("Displaying Data From Game:\n")
     cave.parties foreach{
       p : Party => informationText.appendText("  " + p.toString)
-      p.partyMembers.foreach{
+        val sortedCreatures = sortCreaturesBySelectedType(p.partyMembers)
+        sortedCreatures.foreach{
         c: Creature => informationText.appendText("   " + c.toString)
-            c.loot.foreach{
+            val sortedLoot = sortTreasureBySelectedType(c.loot)
+            sortedLoot.foreach{
             t : Treasure => informationText.appendText("      " + t.toString)
           }
           c.artifacts.foreach{
